@@ -19,3 +19,7 @@ const PORT = process.env.PORT || 1578;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
+
+
+const connectDB = require('./config/db');
+connectDB();
