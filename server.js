@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const gameRoutes = require("./index");
 
 
 const app = express();
+app.use("/api", gameRoutes);
 app.use(cors());
 app.use(express.json());
 
