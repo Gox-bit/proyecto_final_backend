@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const gameSchema = new mongoose.Schema({
   titulo: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   genero: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   plataforma: {
     type: String,
@@ -15,11 +17,14 @@ const gameSchema = new mongoose.Schema({
   },
   horas: {
     type: Number,
-    required: false
+    required: false,
+    default: 0
   },
   estado: {
     type: String,
-    required: false
+    enum: ['Completado', 'Jugando', 'Pendiente'],
+    required: false,
+    default: 'Pendiente',
   },
   reseña: {
     type: String,
@@ -29,9 +34,11 @@ const gameSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     max: 10,
-    required: false
-  }
-});
+    required: false,
+    default: 0,
+  },
+},{ timestamps: true },
+);
 
 const Game = mongoose.model('Game', gameSchema);
 
