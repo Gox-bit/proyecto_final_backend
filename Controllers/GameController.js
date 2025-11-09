@@ -1,8 +1,5 @@
-// Controllers/GameController.js
+const Game = require("../models/Game"); 
 
-const Game = require("../models/Game"); // Importamos el modelo aquí
-
-// Función para OBTENER todos los juegos
 const getGames = async (req, res) => {
   try {
     const games = await Game.find();
@@ -12,7 +9,6 @@ const getGames = async (req, res) => {
   }
 };
 
-// Función para CREAR un juego
 const createGame = async (req, res) => {
   try {
     const newGame = new Game(req.body);
@@ -23,7 +19,6 @@ const createGame = async (req, res) => {
   }
 };
 
-// Función para ACTUALIZAR un juego
 const updateGame = async (req, res) => {
   try {
     const updatedGame = await Game.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -38,7 +33,6 @@ const updateGame = async (req, res) => {
   }
 };
 
-// Función para ELIMINAR un juego
 const deleteGame = async (req, res) => {
   try {
     const deletedGame = await Game.findByIdAndDelete(req.params.id);
@@ -51,11 +45,10 @@ const deleteGame = async (req, res) => {
   }
 };
 
-// ¡ESTA ES LA PARTE CLAVE!
-// Exportamos un objeto que contiene todas nuestras funciones.
+
 module.exports = {
   getGames,
-  createGame, // Nota: he usado 'createGame' que es más descriptivo que 'newGame'
+  createGame, 
   updateGame,
   deleteGame
 };
