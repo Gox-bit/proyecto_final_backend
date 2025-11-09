@@ -1,3 +1,4 @@
+// models/Game.js
 const mongoose = require('mongoose');
 
 const gameSchema = new mongoose.Schema({
@@ -11,8 +12,8 @@ const gameSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  plataforma: {
-    type: String,
+  año: {
+    type: Number,
     required: true
   },
   horas: {
@@ -26,20 +27,23 @@ const gameSchema = new mongoose.Schema({
     required: false,
     default: 'Pendiente',
   },
-  reseña: {
-    type: String,
-    required: false
-  },
-  puntuacion: {
+  // ¡AÑADE ESTOS NUEVOS CAMPOS!
+  // Aquí guardaremos el promedio que calculemos desde el modelo de reseñas.
+  puntuacionPromedio: {
     type: Number,
     min: 0,
     max: 10,
-    required: false,
-    default: 0,
+    default: 0
   },
-},{ timestamps: true },
-);
+  numReseñas: {
+    type: Number,
+    default: 0
+  }
+}, { 
+  timestamps: true 
+});
 
 const Game = mongoose.model('Game', gameSchema);
 
+// Este archivo solo debe exportar el modelo Game.
 module.exports = Game;
