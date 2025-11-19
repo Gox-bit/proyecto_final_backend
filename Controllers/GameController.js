@@ -9,6 +9,27 @@ const getGames = async (req, res) => {
   }
 };
 
+// Pega esta nueva función en tu gameController.js
+
+const getGameById = async (req, res) => {
+  try {
+    // Busca en la base de datos un juego que coincida con el ID de la URL (req.params.id)
+    const game = await Game.findById(req.params.id);
+    
+    // Si no se encuentra ningún juego, devuelve un error 404
+    if (!game) {
+      return res.status(404).json({ success: false, message: "Juego no encontrado" });
+    }
+    
+    // Si se encuentra, devuelve el juego con un estado 200 OK
+    res.status(200).json({ success: true, data: game });
+  } catch (error) {
+    // Si hay un error en el servidor (ej. el ID tiene un formato incorrecto)
+    console.error("Error al obtener juego por ID:", error);
+    res.status(500).json({ success: false, message: "Error del servidor" });
+  }
+};
+
 const createGame = async (req, res) => {
   try {
     const newGame = new Game(req.body);
@@ -50,5 +71,6 @@ module.exports = {
   getGames,
   createGame, 
   updateGame,
-  deleteGame
+  deleteGame,
+  getGameById
 };

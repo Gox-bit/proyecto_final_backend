@@ -12,7 +12,7 @@ const { protect } = require('../middleware/authMiddleware');
 
 // Rutas /api/games/:gameId/reviews
 router.route('/')
-  .get(protect,getReviewsForGame)
+  .get(getReviewsForGame)
   .post(protect, createReview);
 
 // Rutas /api/reviews/:reviewId

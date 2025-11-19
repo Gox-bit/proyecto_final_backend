@@ -7,7 +7,12 @@ const authRoutes = require('./routes/authRoutes');
 const connectDB = require('./config/db');
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+}));
 app.use(express.json());
 app.use("/api/games", gameRoutes);
 app.use('/api/reviews', reviewRoutes);

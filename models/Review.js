@@ -1,4 +1,3 @@
-// models/Review.js
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
@@ -12,7 +11,7 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'La puntuación es obligatoria.'],
     min: 1,
-    max: 10
+    max: 5
   },
   juego: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,9 +27,7 @@ const reviewSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// ---- AQUÍ VA LA LÓGICA PARA CALCULAR EL PROMEDIO ----
 
-// Método estático para calcular el promedio de puntuaciones de un juego
 reviewSchema.statics.recalcularPromedio = async function(juegoId) {
   const stats = await this.aggregate([
     { $match: { juego: juegoId } },
@@ -44,9 +41,9 @@ reviewSchema.statics.recalcularPromedio = async function(juegoId) {
   ]);
 
   try {
-    // Actualizamos el documento del juego con los nuevos valores
+
     await this.model('Game').findByIdAndUpdate(juegoId, {
-      puntuacionPromedio: stats[0] ? Math.round(stats[0].promedio * 10) / 10 : 0, // Redondeado a 1 decimal
+      puntuacionPromedio: stats[0] ? Math.round(stats[0].promedio * 10) / 10 : 0, 
       numReseñas: stats[0] ? stats[0].numReseñas : 0
     });
   } catch (err) {
@@ -54,12 +51,10 @@ reviewSchema.statics.recalcularPromedio = async function(juegoId) {
   }
 };
 
-// Llama al método estático después de que una reseña se guarda
 reviewSchema.post('save', function() {
   this.constructor.recalcularPromedio(this.juego);
 });
 
-// Llama al método estático antes de que una reseña se elimine
 reviewSchema.post('remove', function() {
   this.constructor.recalcularPromedio(this.juego);
 });
@@ -67,5 +62,4 @@ reviewSchema.post('remove', function() {
 
 const Review = mongoose.model('Review', reviewSchema);
 
-// Este archivo solo debe exportar el modelo Review.
 module.exports = Review;
